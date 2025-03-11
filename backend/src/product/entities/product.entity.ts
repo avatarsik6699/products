@@ -61,9 +61,9 @@ export class Product {
 	sku: string;
 
 	@ApiProperty({
-		example: "http://example.com/photo.jpg",
+		example: "photo.jpg",
 		description: "URL of the product photo",
-		type: String,
+		type: "string",
 		nullable: true,
 	})
 	@Column({
