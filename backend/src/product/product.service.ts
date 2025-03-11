@@ -4,8 +4,8 @@ import { Repository } from "typeorm";
 import { Product } from "./entities/product.entity";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
-import { FindAllProductDto } from "./dto/find-all-product.dto";
 import { plainToInstance } from "class-transformer";
+import { FindAllProductsDto } from "./dto/find-all-product.dto";
 
 @Injectable()
 export class ProductService {
@@ -14,31 +14,34 @@ export class ProductService {
 		private readonly productRepository: Repository<Product>
 	) {}
 
-	async findAll(query: FindAllProductDto): Promise<[Product[], number]> {
-		const { limit: take = 10, page = 1, sort, filter } = query;
-
-		const skip = (page - 1) * take;
+	async findAll(query: FindAllProductsDto.Query): Promise<FindAllProductsDto.Response> {
+		const { limit = 10, page = 1, sort } = query;
 
 		const order = {};
 		if (sort) {
-			const [field, direction] = sort.split(":");
+			sort.forEach(sortItem => {
+				const [field, direction] = sortItem.split(":");
 
-			order[field] = direction.toUpperCase();
-		}
-
-		const where = {};
-		if (filter) {
-			Object.keys(filter).forEach(key => {
-				where[key] = filter[key];
+				order[field] = direction.toUpperCase();
 			});
 		}
 
-		return this.productRepository.findAndCount({
-			take,
-			skip,
+		// TODO: need to add filters
+		// const where = {};
+		// if (filter) {
+		// 	Object.keys(filter).forEach(key => {
+		// 		where[key] = filter[key];
+		// 	});
+		// }
+
+		const [items, totalItemsCount] = await this.productRepository.findAndCount({
+			take: limit,
+			skip: (page - 1) * limit,
 			order,
-			where,
+			// where,
 		});
+
+		return new FindAllProductsDto.Response(items, { page, limit, totalItemsCount });
 	}
 
 	async findOne(id: number): Promise<Product> {

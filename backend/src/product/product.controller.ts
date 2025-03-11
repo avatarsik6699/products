@@ -22,19 +22,19 @@ import {
 } from "@nestjs/swagger";
 import { Product } from "./entities/product.entity";
 import { CreateProductDto } from "./dto/create-product.dto";
-import { FindAllProductDto } from "./dto/find-all-product.dto";
 import { ImageUploadInterceptor } from "src/image-file-upload/image-file-upload.interceptor";
 import { UpdateProductDto } from "./dto/update-product.dto";
+import { FindAllProductsDto } from "./dto/find-all-product.dto";
 
-@ApiTags("products")
+@ApiTags("Products")
 @Controller("products")
 export class ProductController {
 	constructor(private readonly productService: ProductService) {}
 
 	@ApiOperation({ summary: "Get all products" })
-	@ApiOkResponse({ description: "Return a list of products", type: [Product] })
+	@ApiOkResponse({ description: "Paginated all products list", type: FindAllProductsDto.Response })
 	@Get()
-	findAll(@Query() query: FindAllProductDto): Promise<[Product[], number]> {
+	findAll(@Query() query: FindAllProductsDto.Query): Promise<FindAllProductsDto.Response> {
 		return this.productService.findAll(query);
 	}
 

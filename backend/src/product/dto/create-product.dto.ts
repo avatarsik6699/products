@@ -4,30 +4,32 @@ import { IsString, IsNumber, IsOptional, Length, Min, ValidateIf } from "class-v
 import { Product } from "../entities/product.entity";
 
 export class CreateProductDto
-	implements Omit<Product, "id" | "slug" | "photoFileName" | "updatedAt" | "createdAt" | "setSlug">
+	implements Pick<Product, "name" | "description" | "price" | "discount" | "sku">
 {
 	@ApiProperty({ example: "Product Name", description: "Name of the product", maxLength: 255 })
 	@IsString()
 	@Length(1, 255)
-	name: Product["name"];
+	name: string;
 
 	@ApiProperty({ example: "Description of the product", description: "Description of the product" })
 	@IsString()
 	@Length(1, 512)
-	description: Product["description"];
+	description: string;
 
-	@ApiProperty({ example: 100.0, description: "Price of the product", minimum: 0 })
+	@ApiProperty({ example: 100.0, description: "Price of the product", minimum: 0, default: 0 })
 	@Transform(({ value: price }: { value: Product["price"] | string }) =>
 		typeof price === "string" ? parseFloat(price) : undefined
 	)
 	@IsNumber({}, { message: "Price must be a number" })
 	@Min(0, { message: "Price must be greater than or equal to 0" })
-	price: Product["price"];
+	price: number;
 
 	@ApiPropertyOptional({
 		example: 90.0,
 		description: "Discounted price of the product",
 		minimum: 0,
+		default: 0,
+		type: Number,
 	})
 	@Transform(({ value: discount }: { value: Product["discount"] | string }) => {
 		if (discount === "" || discount === null) return null;
@@ -38,12 +40,12 @@ export class CreateProductDto
 	@IsNumber({}, { message: "Price must be a number" })
 	@Min(0, { message: "Price must be greater than or equal to 0" })
 	@IsOptional()
-	discount: Product["discount"];
+	discount: number;
 
 	@ApiProperty({ example: "12345", description: "SKU of the product", maxLength: 100 })
 	@IsString()
 	@Length(1, 100)
-	sku: Product["sku"];
+	sku: string;
 
 	@ApiPropertyOptional({ type: "string", format: "binary" })
 	@Transform(({ value: file }: { value: string | null }) => {

@@ -27,18 +27,34 @@ export class Product {
 	@Column({ type: "text" })
 	description: string;
 
-	@ApiProperty({ example: 100.0, description: "Price of the product", minimum: 0 })
-	@Column({ type: "decimal", precision: 10, scale: 2 })
+	@ApiProperty({ example: 100.0, description: "Price of the product", default: 0, minimum: 0 })
+	@Column({
+		type: "decimal",
+		precision: 10,
+		scale: 2,
+		transformer: {
+			from: (value: string) => parseFloat(value),
+			to: (value: number) => value.toString(),
+		},
+	})
 	price: number;
 
 	@ApiProperty({
 		example: 90.0,
 		description: "Discounted for price of the product",
+		default: 0,
 		minimum: 0,
-		nullable: true,
 	})
-	@Column({ type: "decimal", precision: 10, scale: 2, nullable: true })
-	discount: number | null;
+	@Column({
+		type: "decimal",
+		precision: 10,
+		scale: 2,
+		transformer: {
+			from: (value: string) => parseFloat(value),
+			to: (value: number) => value.toString(),
+		},
+	})
+	discount: number;
 
 	@ApiProperty({ example: "12345", description: "SKU of the product", maxLength: 100 })
 	@Column({ type: "varchar", length: 100 })
@@ -47,9 +63,22 @@ export class Product {
 	@ApiProperty({
 		example: "http://example.com/photo.jpg",
 		description: "URL of the product photo",
+		type: String,
 		nullable: true,
 	})
-	@Column({ type: "varchar", length: 255, nullable: true })
+	@Column({
+		type: "varchar",
+		length: 255,
+		nullable: true,
+		transformer: {
+			from: (fileName: string | null) => {
+				if (!fileName) return null;
+
+				return `/products/photos/${fileName}`;
+			},
+			to: (fileName: string | null) => fileName,
+		},
+	})
 	photoFileName: string | null;
 
 	@ApiProperty({ description: "Update product date", example: "2023-10-01T12:00:00Z" })
