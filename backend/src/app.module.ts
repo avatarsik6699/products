@@ -1,12 +1,12 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { ProductModule } from "./product/product.module";
-import { envsFactoryMapper } from "./shared/configs/envs-factory-mapper";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import dataSource from "./shared/configs/db/data-source";
 import { ServeStaticModule } from "@nestjs/serve-static";
+import { TypeOrmModule } from "@nestjs/typeorm";
 import { join } from "path";
 import { ImageFileUploadModule } from "./image-file-upload/image-file-upload.module";
+import { ProductModule } from "./product/product.module";
+import dataSource from "./shared/configs/db/data-source";
+import { envsFactoryMapper } from "./shared/configs/envs-factory-mapper";
 
 @Module({
 	imports: [

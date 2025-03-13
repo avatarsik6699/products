@@ -1,23 +1,41 @@
 import App from "@app/app";
+import CreateProductPage from "@pages/create-product/create-product.page";
+import ProductDetailsPage from "@pages/product/product.page";
 import ProductsPage from "@pages/products/products.page";
+import UpdateProductPage from "@pages/update-product/update-product.page";
 import { createRootRoute, createRoute } from "@tanstack/react-router";
 
 const app = createRootRoute({
   component: App,
 });
 
-const products = createRoute({
+const productsPage = createRoute({
   getParentRoute: () => app,
   path: "/",
   component: ProductsPage,
 });
 
-const about = createRoute({
+const createProductPage = createRoute({
   getParentRoute: () => app,
-  path: "/about",
-  component: function About() {
-    return <div className="p-2">Hello from About!</div>;
-  },
+  path: "/create-product",
+  component: CreateProductPage,
 });
 
-export const routeTree = app.addChildren([products, about]);
+const updateProductPage = createRoute({
+  getParentRoute: () => app,
+  path: "/update-product/$productId",
+  component: UpdateProductPage,
+});
+
+const productPage = createRoute({
+  getParentRoute: () => app,
+  path: "/$productId",
+  component: ProductDetailsPage,
+});
+
+export const routeTree = app.addChildren([
+  productsPage,
+  createProductPage,
+  updateProductPage,
+  productPage,
+]);

@@ -31,4 +31,14 @@ export default tseslint.config(
     },
   },
   eslintPluginPrettierRecommended,
+  {
+    rules: {
+      "prettier/prettier": [
+        "error",
+        {
+          quoteProps: "consistent",
+        },
+      ],
+    },
+  },
 );

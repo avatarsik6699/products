@@ -5,8 +5,6 @@
  * Документация к запросам
  * OpenAPI spec version: 1.0
  */
-import type { ProductDiscount } from "./product-discount";
-import type { ProductPhotoFileName } from "./product-photo-file-name";
 
 export interface Product {
   /** Unique identifier of the product */
@@ -26,9 +24,8 @@ export interface Product {
   /**
    * Discounted for price of the product
    * @minimum 0
-   * @nullable
    */
-  discount: ProductDiscount;
+  discount: number;
   /**
    * SKU of the product
    * @maxLength 100
@@ -38,7 +35,7 @@ export interface Product {
    * URL of the product photo
    * @nullable
    */
-  photoFileName: ProductPhotoFileName;
+  photoFileName: string | null;
   /** Update product date */
   updatedAt: string;
   /** Create product date */

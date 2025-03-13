@@ -5,34 +5,29 @@
  * Документация к запросам
  * OpenAPI spec version: 1.0
  */
-import type { CreateProductDtoName } from "./create-product-dto-name";
-import type { CreateProductDtoDescription } from "./create-product-dto-description";
-import type { CreateProductDtoPrice } from "./create-product-dto-price";
-import type { CreateProductDtoDiscount } from "./create-product-dto-discount";
-import type { CreateProductDtoSku } from "./create-product-dto-sku";
 
 export interface CreateProductDto {
   /**
    * Name of the product
    * @maxLength 255
    */
-  name: CreateProductDtoName;
+  name: string;
   /** Description of the product */
-  description: CreateProductDtoDescription;
+  description: string;
   /**
    * Price of the product
    * @minimum 0
    */
-  price: CreateProductDtoPrice;
+  price: number;
   /**
    * Discounted price of the product
    * @minimum 0
    */
-  discount?: CreateProductDtoDiscount;
+  discount?: number;
   /**
    * SKU of the product
    * @maxLength 100
    */
-  sku: CreateProductDtoSku;
+  sku: string;
   image?: Blob;
 }

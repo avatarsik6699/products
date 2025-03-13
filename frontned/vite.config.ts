@@ -20,11 +20,17 @@ export default defineConfig({
         target: "http://localhost:3000",
         changeOrigin: true,
       },
+      "/products/photos/": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+      },
     },
   },
   resolve: {
     alias: {
       "@app": path.resolve(__dirname, "src", "app"),
+      "@features": path.resolve(__dirname, "src", "features"),
+      "@widgets": path.resolve(__dirname, "src", "widgets"),
       "@pages": path.resolve(__dirname, "src", "pages"),
       "@entities": path.resolve(__dirname, "src", "entities"),
       "@shared": path.resolve(__dirname, "src", "shared"),

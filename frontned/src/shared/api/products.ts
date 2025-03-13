@@ -7,6 +7,7 @@
  */
 import type {
   CreateProductDto,
+  FindAllProductsResponseDto,
   Product,
   ProductFindAllParams,
   UpdateProductDto,
@@ -21,10 +22,10 @@ type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
  * @summary Get all products
  */
 export const productFindAll = (
-  params: ProductFindAllParams,
+  params?: ProductFindAllParams,
   options?: SecondParameter<typeof customInstance>,
 ) => {
-  return customInstance<Product[]>(
+  return customInstance<FindAllProductsResponseDto>(
     { url: `/api/products`, method: "GET", params },
     options,
   );
@@ -37,13 +38,13 @@ export const productCreate = (
   options?: SecondParameter<typeof customInstance>,
 ) => {
   const formData = new FormData();
-  formData.append("name", JSON.stringify(createProductDto.name));
-  formData.append("description", JSON.stringify(createProductDto.description));
-  formData.append("price", JSON.stringify(createProductDto.price));
+  formData.append("name", createProductDto.name);
+  formData.append("description", createProductDto.description);
+  formData.append("price", createProductDto.price.toString());
   if (createProductDto.discount !== undefined) {
-    formData.append("discount", JSON.stringify(createProductDto.discount));
+    formData.append("discount", createProductDto.discount.toString());
   }
-  formData.append("sku", JSON.stringify(createProductDto.sku));
+  formData.append("sku", createProductDto.sku);
   if (createProductDto.image !== undefined) {
     formData.append("image", createProductDto.image);
   }
@@ -80,22 +81,19 @@ export const productUpdate = (
 ) => {
   const formData = new FormData();
   if (updateProductDto.name !== undefined) {
-    formData.append("name", JSON.stringify(updateProductDto.name));
+    formData.append("name", updateProductDto.name);
   }
   if (updateProductDto.description !== undefined) {
-    formData.append(
-      "description",
-      JSON.stringify(updateProductDto.description),
-    );
+    formData.append("description", updateProductDto.description);
   }
   if (updateProductDto.price !== undefined) {
-    formData.append("price", JSON.stringify(updateProductDto.price));
+    formData.append("price", updateProductDto.price.toString());
   }
   if (updateProductDto.discount !== undefined) {
-    formData.append("discount", JSON.stringify(updateProductDto.discount));
+    formData.append("discount", updateProductDto.discount.toString());
   }
   if (updateProductDto.sku !== undefined) {
-    formData.append("sku", JSON.stringify(updateProductDto.sku));
+    formData.append("sku", updateProductDto.sku);
   }
   if (updateProductDto.image !== undefined) {
     formData.append("image", updateProductDto.image);

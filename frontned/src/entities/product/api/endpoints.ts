@@ -6,7 +6,7 @@ import {
   productUpdate,
 } from "@shared/api/products";
 
-export const productApi = {
+export const api = {
   list: productFindAll,
   one: productFindOne,
   create: productCreate,

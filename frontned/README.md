@@ -1,54 +1,24 @@
-# React + TypeScript + Vite
+* Определяем domain -> выделаем entities, взаимодействие между ними.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+* Первично реализуем модели. Манипуляцию с данными через консоль (без ui).
+* Первичная реализация сырого ui без стилизации для манипулирования данными через ui.
 
-Currently, two official plugins are available:
+[] products
+[] product
+[] create-product
+[] edit-product
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+* Анализ дизайна из Figma
+Перед началом работы важно тщательно проанализировать дизайн:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+  [Цветовая палитра] -> Определите основные цвета (primary, secondary, success, error и т.д.) и их оттенки (например, light, dark, hover, active).
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+  [Типографика] -> Узнайте, какие шрифты используются (font-family), их размеры (font-size), межстрочный интервал (line-height) и веса (font-weight).
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+  [Сетка и spacing] ->  Определите базовый размер сетки (например, 4px или 8px) и все используемые отступы (padding, margin).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+  [Компоненты] -> Просмотрите повторяющиеся элементы (кнопки, карточки, формы и т.д.) и их состояния (default, hover, focus, disabled).
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+  [Темизация] -> Если дизайн поддерживает светлую и темную темы, убедитесь, что вы знаете, как цвета и стили меняются между ними.
+  Эта информация будет основой для настройки Tailwind CSS и shadcn/ui.

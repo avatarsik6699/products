@@ -5,23 +5,19 @@
  * Документация к запросам
  * OpenAPI spec version: 1.0
  */
-import type { Object } from "./object";
+import type { ProductFindAllSortItem } from "./product-find-all-sort-item";
 
 export type ProductFindAllParams = {
   /**
-   * Filter products by fields (e.g., { name: "Product" })
+   * Current page number
    */
-  filter: Object;
+  page?: number;
   /**
-   * Sort by field and direction (e.g., name:ASC)
+   * Number of items per page
    */
-  sort: string;
+  limit?: number;
   /**
-   * Limit the number of items per page
+   * Sort by property and order. Format: "property:order".
    */
-  limit: number;
-  /**
-   * Page number
-   */
-  page: number;
+  sort?: ProductFindAllSortItem[];
 };

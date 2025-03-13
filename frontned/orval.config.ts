@@ -2,7 +2,7 @@ import { defineConfig } from "orval";
 
 export default defineConfig({
   main: {
-    input: "./src/shared/api/schema.yaml",
+    input: "./src/shared/api/schema.json",
     output: {
       mode: "tags",
       namingConvention: "kebab-case",

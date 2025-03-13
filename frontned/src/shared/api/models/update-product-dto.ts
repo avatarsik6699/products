@@ -5,34 +5,29 @@
  * Документация к запросам
  * OpenAPI spec version: 1.0
  */
-import type { UpdateProductDtoName } from "./update-product-dto-name";
-import type { UpdateProductDtoDescription } from "./update-product-dto-description";
-import type { UpdateProductDtoPrice } from "./update-product-dto-price";
-import type { UpdateProductDtoDiscount } from "./update-product-dto-discount";
-import type { UpdateProductDtoSku } from "./update-product-dto-sku";
 
 export interface UpdateProductDto {
   /**
    * Name of the product
    * @maxLength 255
    */
-  name?: UpdateProductDtoName;
+  name?: string;
   /** Description of the product */
-  description?: UpdateProductDtoDescription;
+  description?: string;
   /**
    * Price of the product
    * @minimum 0
    */
-  price?: UpdateProductDtoPrice;
+  price?: number;
   /**
    * Discounted price of the product
    * @minimum 0
    */
-  discount?: UpdateProductDtoDiscount;
+  discount?: number;
   /**
    * SKU of the product
    * @maxLength 100
    */
-  sku?: UpdateProductDtoSku;
+  sku?: string;
   image?: Blob;
 }
