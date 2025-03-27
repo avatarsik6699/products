@@ -39,7 +39,6 @@ export class Swagger {
 		}
 
 		const firstChar = input.charAt(0).toUpperCase();
-
 		const restOfString = input.slice(1);
 
 		return firstChar + restOfString;

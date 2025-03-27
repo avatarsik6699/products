@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { Product } from "./entities/product.entity";
-import { CreateProductDto } from "./dto/create-product.dto";
-import { UpdateProductDto } from "./dto/update-product.dto";
 import { plainToInstance } from "class-transformer";
+import { And, Between, Equal, FindOptionsWhere, IsNull, Like, Not, Repository } from "typeorm";
+import { CreateProductDto } from "./dto/create-product.dto";
 import { FindAllProductsDto } from "./dto/find-all-product.dto";
+import { UpdateProductDto } from "./dto/update-product.dto";
+import { ProductFiltersDto } from "./entities/filters/dtos/product-filters.dto";
+import { Product } from "./entities/product.entity";
 
 @Injectable()
 export class ProductService {
@@ -14,8 +15,12 @@ export class ProductService {
 		private readonly productRepository: Repository<Product>
 	) {}
 
-	async findAll(query: FindAllProductsDto.Query): Promise<FindAllProductsDto.Response> {
-		const { limit = 10, page = 1, sort } = query;
+	async findAll(
+		query: Omit<FindAllProductsDto.Query, "getOffset"> & {
+			filters: ProductFiltersDto.Filters;
+		}
+	): Promise<FindAllProductsDto.Response> {
+		const { limit = 10, page = 1, sort, filters } = query;
 
 		const order = {};
 		if (sort) {
@@ -26,19 +31,42 @@ export class ProductService {
 			});
 		}
 
-		// TODO: need to add filters
-		// const where = {};
-		// if (filter) {
-		// 	Object.keys(filter).forEach(key => {
-		// 		where[key] = filter[key];
-		// 	});
-		// }
+		const where: FindOptionsWhere<Product> = {};
+
+		if (filters.price && filters.price?.max) {
+			where.price = Between(filters.price.min ?? 0, filters.price.max);
+		}
+
+		if (filters.onlyWithPhoto) {
+			where.photoFileName = Not(IsNull());
+		}
+
+		if (filters.onlyWithDiscount) {
+			where.discount = And(Not(IsNull()), Not(Equal(0)));
+		}
+
+		if (filters.onlyWithMaxDiscount) {
+			const maxDiscount = await this.productRepository
+				.createQueryBuilder("product")
+				.select("MAX(discount)", "maxDiscount")
+				.where("discount IS NOT NULL")
+				.andWhere("discount != 0")
+				.getRawOne()
+				.then(({ maxDiscount }: { maxDiscount: number }) => maxDiscount);
+
+			where.discount = Equal(maxDiscount);
+		}
+
+		if (filters.search) {
+			// TODO: unsafe variant, should be replaced with ILIKE or query builder
+			where.name = Like(`%${filters.search}%`);
+		}
 
 		const [items, totalItemsCount] = await this.productRepository.findAndCount({
 			take: limit,
 			skip: (page - 1) * limit,
 			order,
-			// where,
+			where,
 		});
 
 		return new FindAllProductsDto.Response(items, { page, limit, totalItemsCount });

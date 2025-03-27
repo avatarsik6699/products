@@ -1,30 +1,32 @@
 import {
-	Controller,
-	Get,
-	Post,
 	Body,
-	Patch,
-	Param,
+	Controller,
 	Delete,
+	Get,
+	Param,
+	Patch,
+	Post,
 	Query,
 	UploadedFile,
 	UseInterceptors,
 } from "@nestjs/common";
-import { ProductService } from "./product.service";
 import {
-	ApiTags,
-	ApiOperation,
-	ApiResponse,
 	ApiConsumes,
-	ApiParam,
-	ApiOkResponse,
 	ApiCreatedResponse,
+	ApiOkResponse,
+	ApiOperation,
+	ApiParam,
+	ApiResponse,
+	ApiTags,
 } from "@nestjs/swagger";
-import { Product } from "./entities/product.entity";
-import { CreateProductDto } from "./dto/create-product.dto";
 import { ImageUploadInterceptor } from "src/image-file-upload/image-file-upload.interceptor";
-import { UpdateProductDto } from "./dto/update-product.dto";
+import { WithFiltrsInQueryParams } from "src/shared/features/filters/decorators/WithFiltersInQueryParams.decorator";
+import { CreateProductDto } from "./dto/create-product.dto";
 import { FindAllProductsDto } from "./dto/find-all-product.dto";
+import { UpdateProductDto } from "./dto/update-product.dto";
+import { ProductFiltersDto } from "./entities/filters/dtos/product-filters.dto";
+import { Product } from "./entities/product.entity";
+import { ProductService } from "./product.service";
 
 @ApiTags("Products")
 @Controller("products")
@@ -33,9 +35,13 @@ export class ProductController {
 
 	@ApiOperation({ summary: "Get all products" })
 	@ApiOkResponse({ description: "Paginated all products list", type: FindAllProductsDto.Response })
+	@WithFiltrsInQueryParams(ProductFiltersDto.Filters)
 	@Get()
-	findAll(@Query() query: FindAllProductsDto.Query): Promise<FindAllProductsDto.Response> {
-		return this.productService.findAll(query);
+	findAll(
+		@Query() query: FindAllProductsDto.Query,
+		@Query("filters") filters: ProductFiltersDto.Filters
+	): Promise<FindAllProductsDto.Response> {
+		return this.productService.findAll({ ...query, filters });
 	}
 
 	@ApiOperation({ summary: "Get a single product by ID" })

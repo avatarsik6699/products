@@ -4,15 +4,17 @@ import * as dotenv from "dotenv";
 import { envsFactoryMapper } from "./shared/configs/envs-factory-mapper";
 import { ValidationPipe } from "@nestjs/common";
 import { Swagger } from "./shared/configs/swagger";
+import { NestExpressApplication } from "@nestjs/platform-express";
 
 dotenv.config();
 
 const { port } = envsFactoryMapper();
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule);
+	const app = await NestFactory.create<NestExpressApplication>(AppModule);
+	app.set("query parser", "extended");
 
-	app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+	app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
 	app.setGlobalPrefix("api");
 
 	new Swagger().setup(app);
