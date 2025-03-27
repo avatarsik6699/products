@@ -57,3 +57,21 @@ File uploading.
         
         - page -> {items: T[], meta: Meta}
         - meta (Meta) -> {page: num, limit: num, totalPagesCount: num, totalItemsCount: num, hasNextPage: bool, hasPrevPage: bool}
+
+
+[] filters for products.
+   -> ?searchByName
+
+   -> ?filterByPrice - фильтруем по цене от самой маленькой до самой большой.
+      - диапазон от самой маленькой цены до самой большой. [minPrice] - [maxPrice].
+      [minPrice] - [maxPrice] -> input data: {filters: {price: {min: 500, max: 1000}}} in 
+      -> url?filters[price][min]=500&?filters[price][max]=1000 -> parse + validate? -> 
+      -> sql: SELECT *.products WHERE products.price between min and max -> Product[]
+
+      frontend api/filterBy/price -> min - max. -> ... 
+
+   -> ?filterByDiscount - самая большая скидка.
+      - Нахожу самую большую скидку.
+      - нахожу все товары с такой скидкой.
+
+   -> ?filterByHasPhoto - показывать с фото / без фото / оба. 
