@@ -1,8 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { PlusCircle } from "lucide-react";
 import type { FC } from "react";
-import { ProductsTable } from "./components/products-table/products-table";
-
+import ProductsCardsList from "./components/products-cards-list/products-cards-list";
+import ProductsFilters from "./components/products-filters/products-filters";
 const ProductsPage: FC = () => {
   return (
     <>
@@ -16,7 +16,13 @@ const ProductsPage: FC = () => {
           Добавить товар
         </Link>
       </div>
-      <ProductsTable />
+
+      <div className="grid grid-cols-5 gap-4">
+        <ProductsFilters className="col-span-1" />
+
+        <ProductsCardsList className="col-span-4" />
+      </div>
+      {/* <ProductsTable /> */}
     </>
   );
 };

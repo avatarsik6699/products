@@ -1,7 +1,7 @@
 import App from "@app/app";
 import CreateProductPage from "@pages/create-product/create-product.page";
 import ProductDetailsPage from "@pages/product/product.page";
-import ProductsPage from "@pages/products/products.page";
+import ProductsPage from "@pages/products/products-page";
 import UpdateProductPage from "@pages/update-product/update-product.page";
 import { DEFAULT_LIMIT } from "@shared/constants";
 import { DEFAULT_PAGE } from "@shared/constants";
