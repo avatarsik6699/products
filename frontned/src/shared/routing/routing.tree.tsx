@@ -3,6 +3,8 @@ import CreateProductPage from "@pages/create-product/create-product.page";
 import ProductDetailsPage from "@pages/product/product.page";
 import ProductsPage from "@pages/products/products.page";
 import UpdateProductPage from "@pages/update-product/update-product.page";
+import { DEFAULT_LIMIT } from "@shared/constants";
+import { DEFAULT_PAGE } from "@shared/constants";
 import { createRootRoute, createRoute } from "@tanstack/react-router";
 
 const app = createRootRoute({
@@ -11,6 +13,12 @@ const app = createRootRoute({
 
 const productsPage = createRoute({
   getParentRoute: () => app,
+  validateSearch: (search) => {
+    return {
+      page: search.page ? Number(search.page) : DEFAULT_PAGE,
+      limit: search.limit ? Number(search.limit) : DEFAULT_LIMIT,
+    };
+  },
   path: "/",
   component: ProductsPage,
 });

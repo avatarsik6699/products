@@ -60,9 +60,9 @@ File uploading.
 
 
 [] filters for products.
-   -> ?searchByName
+   [+]-> ?searchByName
 
-   -> ?filterByPrice - фильтруем по цене от самой маленькой до самой большой.
+   [+]-> ?filterByPrice - фильтруем по цене от самой маленькой до самой большой.
       - диапазон от самой маленькой цены до самой большой. [minPrice] - [maxPrice].
       [minPrice] - [maxPrice] -> input data: {filters: {price: {min: 500, max: 1000}}} in 
       -> url?filters[price][min]=500&?filters[price][max]=1000 -> parse + validate? -> 
@@ -70,8 +70,14 @@ File uploading.
 
       frontend api/filterBy/price -> min - max. -> ... 
 
-   -> ?filterByDiscount - самая большая скидка.
+   [+]-> ?filterByDiscount - самая большая скидка.
       - Нахожу самую большую скидку.
       - нахожу все товары с такой скидкой.
 
-   -> ?filterByHasPhoto - показывать с фото / без фото / оба. 
+   [+]-> ?filterByHasPhoto - показывать с фото / без фото / оба. 
+
+features:
+  [] Добавить категории для товаров.
+  [] Добавить для товаров статусы: черновик, опубликован (на витрине).
+  [] Добавить пользователей.
+  [] Добавить ролевую модель.

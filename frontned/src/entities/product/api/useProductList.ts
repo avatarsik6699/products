@@ -19,6 +19,6 @@ export const useProductList = createInfiniteQuery({
     return api.list(variables);
   },
   getNextPageParam: (lastPage) => {
-    return lastPage.meta.hasNextPage ? lastPage.meta.page + 1 : null;
+    return lastPage.meta?.hasNextPage ? lastPage.meta.page + 1 : null;
   },
 });

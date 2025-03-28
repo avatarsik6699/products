@@ -1,21 +1,23 @@
-import type { FC } from "react";
-import ProductList from "./components/products-list";
 import { Link } from "@tanstack/react-router";
-import { SquarePlus } from "lucide-react";
+import { PlusCircle } from "lucide-react";
+import type { FC } from "react";
+import { ProductsTable } from "./components/products-table/products-table";
 
 const ProductsPage: FC = () => {
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="w-1/2">
-        <div className="flex items-center w-full mb-5 gap-2">
-          <h1 className="text-3xl font-bold">Товары</h1>
-          <Link to="/create-product">
-            <SquarePlus className="translate-y-1" />
-          </Link>
-        </div>
-        <ProductList />
+    <>
+      <div className="flex items-center justify-between gap-2 mb-5">
+        <h1 className="text-3xl font-bold">Список товаров</h1>
+        <Link
+          to="/create-product"
+          className="inline-flex gap-1 items-center size-fit translate-y-2"
+        >
+          <PlusCircle className="size-5" />
+          Добавить товар
+        </Link>
       </div>
-    </div>
+      <ProductsTable />
+    </>
   );
 };
 

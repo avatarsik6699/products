@@ -8,31 +8,37 @@ import {
   useFormState,
   type ControllerProps,
   type FieldPath,
-  type FieldValues,
+  type FieldValues as RHFFieldValues,
 } from "react-hook-form";
 
 import { cn } from "../utils";
 import { Label } from "@shared/ui/label";
 
-const Form = FormProvider;
-
-type FormFieldContextValue<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+type FormFieldContext<
+  FieldValues extends RHFFieldValues = RHFFieldValues,
+  Name extends FieldPath<FieldValues> = FieldPath<FieldValues>,
 > = {
-  name: TName;
+  name: Name;
 };
 
-const FormFieldContext = React.createContext<FormFieldContextValue>(
-  {} as FormFieldContextValue,
+type FormItemContext = {
+  id: string;
+};
+
+const FormFieldContext = React.createContext<FormFieldContext>(
+  {} as FormFieldContext,
+);
+
+const FormItemContext = React.createContext<FormItemContext>(
+  {} as FormItemContext,
 );
 
 const FormField = <
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  FieldValues extends RHFFieldValues = RHFFieldValues,
+  Name extends FieldPath<FieldValues> = FieldPath<FieldValues>,
 >({
   ...props
-}: ControllerProps<TFieldValues, TName>) => {
+}: ControllerProps<FieldValues, Name>) => {
   return (
     <FormFieldContext.Provider value={{ name: props.name }}>
       <Controller {...props} />
@@ -62,14 +68,6 @@ const useFormField = () => {
     ...fieldState,
   };
 };
-
-type FormItemContextValue = {
-  id: string;
-};
-
-const FormItemContext = React.createContext<FormItemContextValue>(
-  {} as FormItemContextValue,
-);
 
 function FormItem({ className, ...props }: React.ComponentProps<"div">) {
   const id = React.useId();
@@ -156,7 +154,7 @@ function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
 
 export {
   useFormField,
-  Form,
+  FormProvider,
   FormItem,
   FormLabel,
   FormControl,

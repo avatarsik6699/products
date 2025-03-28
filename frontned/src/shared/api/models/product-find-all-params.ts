@@ -6,6 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 import type { ProductFindAllSortItem } from "./product-find-all-sort-item";
+import type { Filters } from "./filters";
 
 export type ProductFindAllParams = {
   /**
@@ -20,4 +21,8 @@ export type ProductFindAllParams = {
    * Sort by property and order. Format: "property:order".
    */
   sort?: ProductFindAllSortItem[];
+  /**
+   * Фильтры для поиска продуктов
+   */
+  filters?: Filters;
 };

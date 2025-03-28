@@ -1,3 +1,26 @@
 {
-  "prettier.endOfLine": "auto"
+  "prettier.endOfLine": "auto",
+
+  "tailwindCSS.experimental.classRegex": [],
+  "tailwindCSS.includeLanguages": {
+    "typescript": "typescript",
+    "typescriptreact": "typescriptreact"
+  },
+  "tailwindCSS.classSorter.classRegex": [],
+  "tailwindCSS.classSorter.order": [
+    "container",
+    "position",
+    "display",
+    "flex",
+    "grid",
+    "spacing",
+    "sizing",
+    "typography",
+    "backgrounds",
+    "borders",
+    "effects",
+    "transforms",
+    "transitions",
+    "interactivity"
+  ]
 }

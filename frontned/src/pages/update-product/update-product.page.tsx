@@ -1,10 +1,12 @@
-import { useOneProduct } from "@entities/product/api/useOneProduct";
+import { toEntity, useOneProduct } from "@entities/product/api/useOneProduct";
 import { useUpdateProduct } from "@entities/product/api/useUpdateProduct";
-import ProductForm from "@entities/product/ui/product-form";
-import { useParams } from "@tanstack/react-router";
+import { Link, useParams } from "@tanstack/react-router";
+import { PlusCircle } from "lucide-react";
 import type { FC } from "react";
 import { useCallback } from "react";
 import { toast } from "sonner";
+import UpdateProductForm from "./components/update-product-form";
+import UpdateProductFormV2 from "./components/UpdateProductForm";
 
 const UpdateProductPage: FC = () => {
   const { productId } = useParams({ strict: false });
@@ -13,7 +15,7 @@ const UpdateProductPage: FC = () => {
     variables: { productId: Number(productId) },
     select: (data) => {
       return {
-        ...data,
+        ...toEntity(data),
         image: data.photoFileName,
       };
     },
@@ -31,25 +33,34 @@ const UpdateProductPage: FC = () => {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="flex flex-col gap-5 w-1/2">
-        <h3 className="text-2xl font-semibold">Редактирование товара</h3>
-        <ProductForm
-          type="update"
-          initialValues={$product.data}
-          isPending={$update.isPending}
-          $handler={useCallback(
-            (formData) => {
-              $update.mutate({
-                productId: Number(productId),
-                dataToUpdate: formData,
-              });
-            },
-            [$update, productId],
-          )}
-        />
+    <>
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold">Редактировать товар</h1>
+        <p className="text-muted-foreground">Измените информацию о товаре</p>
       </div>
-    </div>
+      {/* <UpdateProductForm product={$product.data} /> */}
+      <UpdateProductFormV2 />
+    </>
+
+    // <div className="flex flex-col items-center justify-center">
+    //   <div className="flex flex-col gap-5 w-1/2">
+    //     <h3 className="text-2xl font-semibold">Редактирование товара</h3>
+    //     {/* <ProductForm
+    //       type="update"
+    //       initialValues={$product.data}
+    //       isPending={$update.isPending}
+    //       $handler={useCallback(
+    //         (formData) => {
+    //           $update.mutate({
+    //             productId: Number(productId),
+    //             dataToUpdate: formData,
+    //           });
+    //         },
+    //         [$update, productId],
+    //       )}
+    //     /> */}
+    //   </div>
+    // </div>
   );
 };
 

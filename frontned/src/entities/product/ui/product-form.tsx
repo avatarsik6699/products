@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { createProductSchema } from "@entities/product/api/useCreateProduct";
 import { Button } from "@shared/ui/button";
 import {
-  Form,
+  FormProvider,
   FormControl,
   FormDescription,
   FormField,
@@ -64,7 +64,7 @@ const ProductForm: FC<Props> = (props) => {
   }
 
   return (
-    <Form {...form}>
+    <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
@@ -197,7 +197,7 @@ const ProductForm: FC<Props> = (props) => {
           </Button>
         </div>
       </form>
-    </Form>
+    </FormProvider>
   );
 };
 

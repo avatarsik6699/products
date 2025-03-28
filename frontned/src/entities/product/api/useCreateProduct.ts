@@ -16,28 +16,35 @@ export const useCreateProduct = createMutation({
 
 export const createProductSchema = z.object({
   name: z
-    .string({ required_error: "Name is required" })
-    .min(1, { message: "Name must be at least 1 character long" })
-    .max(255, { message: "Name cannot exceed 255 characters" }),
+    .string({ required_error: "Название обязательно" })
+    .min(1, { message: "Название должно содержать минимум 1 символ" })
+    .max(255, { message: "Название не может превышать 255 символов" }),
 
   description: z
-    .string({ required_error: "Description is required" })
-    .min(1, { message: "Description must be at least 1 character long" })
-    .max(512, { message: "Description cannot exceed 512 characters" }),
+    .string({ required_error: "Описание обязательно" })
+    .min(1, { message: "Описание должно содержать минимум 1 символ" })
+    .max(512, { message: "Описание не может превышать 512 символов" }),
 
   price: z
-    .number({ required_error: "Price is required" })
-    .min(0, { message: "Price must be greater than or equal to 0" }),
+    .number({ required_error: "Цена обязательна" })
+    .min(0, { message: "Цена должна быть больше или равна 0" }),
 
   discount: z
-    .number()
-    .min(0, { message: "Discount must be greater than or equal to 0" })
-    .optional(),
+    .number({ required_error: "Скидка обязательна" })
+    .min(0, { message: "Скидка должна быть больше или равна 0" })
+    .max(100, { message: "Скидка не может превышать 100%" })
+    .default(0),
+
+  photo: z.instanceof(File).optional(),
 
   sku: z
-    .string({ required_error: "SKU is required" })
-    .min(1, { message: "SKU must be at least 1 character long" })
-    .max(100, { message: "SKU cannot exceed 100 characters" }),
+    .string({ required_error: "Артикул обязателен" })
+    .min(1, { message: "Артикул должен содержать минимум 1 символ" })
+    .max(100, { message: "Артикул не может превышать 100 символов" }),
 
-  image: z.instanceof(File).optional(),
+  category: z
+    .string({ required_error: "Категория обязательна" })
+    .min(1, { message: "Категория должна содержать минимум 1 символ" }),
+
+  inStock: z.boolean().default(false),
 });
