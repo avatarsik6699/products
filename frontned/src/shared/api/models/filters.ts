@@ -9,4 +9,12 @@ import type { MinMaxRangeDtoQuery } from "./min-max-range-dto-query";
 
 export interface Filters {
   price?: MinMaxRangeDtoQuery;
+  /** Filter products with photo */
+  onlyWithPhoto?: boolean;
+  /** Filter products with discount */
+  onlyWithDiscount?: boolean;
+  /** Filter products with max discount */
+  onlyWithMaxDiscount?: boolean;
+  /** Search for products by name */
+  search?: string;
 }

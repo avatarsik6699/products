@@ -22,7 +22,7 @@ export type ProductFindAllParams = {
    */
   sort?: ProductFindAllSortItem[];
   /**
-   * Фильтры для поиска продуктов
+   * Filters for request
    */
   filters?: Filters;
 };
